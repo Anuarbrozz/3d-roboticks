@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROBO LAB | 6-Axis Industrial Robot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#090e17;--panel:#111a28;--panel2:#172235;--line:#25364b;--text:#e9f0fb;--muted:#91a3ba;--cyan:#3dd9f5;--orange:#ff9b42}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% 0%,#16253b 0,#090e17 50%);color:var(--text);font-family:Inter,Arial,sans-serif;min-height:100vh}
+header{height:72px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 5vw;background:#0b111bd9;position:sticky;top:0;z-index:5;backdrop-filter:blur(14px)}
+.brand{font-family:Orbitron,sans-serif;letter-spacing:2px;font-weight:700}.brand span{color:var(--cyan)}.tag{font-size:12px;color:var(--muted);letter-spacing:1.5px}
+main{max-width:1440px;margin:auto;padding:30px 4vw}.hero{display:flex;justify-content:space-between;align-items:end;margin-bottom:22px;gap:20px}.hero h1{font-family:Orbitron,sans-serif;font-size:clamp(22px,3vw,34px);margin:0 0 8px}.hero p{color:var(--muted);margin:0;font-size:14px}.status{border:1px solid #244a57;background:#0d222b;color:#76e6f6;padding:9px 13px;border-radius:30px;font-size:12px;white-space:nowrap}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:18px}.view-card,.control-card,.info-card{background:linear-gradient(145deg,#121d2c,#0d1522);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 20px 55px #0003}
+.viewer{height:min(65vh,650px);min-height:430px;position:relative;background:radial-gradient(circle at 50% 48%,#1d3046 0,#101a29 45%,#0b111a 100%)}
+#scene{width:100%;height:100%;display:block}.view-top{position:absolute;top:15px;left:17px;right:17px;display:flex;justify-content:space-between;pointer-events:none}.view-top span{background:#0a111cba;border:1px solid #2a3c52;border-radius:8px;padding:8px 10px;color:#9bb1ca;font-size:11px;letter-spacing:1px}
+.view-bottom{position:absolute;bottom:14px;left:16px;right:16px;display:flex;justify-content:space-between;align-items:center;gap:10px}.hint{font-size:11px;color:#91a3ba;background:#0a111cbb;padding:8px 10px;border-radius:8px}
+button{font-family:inherit;cursor:pointer;border:1px solid #2c4158;background:#182538;color:#dbe9f8;border-radius:9px;padding:10px 12px;font-size:12px;transition:.2s}button:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-1px)}button.primary{background:linear-gradient(135deg,#19a9c6,#2376c9);border:0;color:white;font-weight:600}button.active{background:#1a3b4b;border-color:var(--cyan);color:var(--cyan)}
+.controls{padding:18px}.control-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.control-title h2{font-size:15px;margin:0}.control-title small{color:var(--muted)}
+.joint{padding:13px 0;border-bottom:1px solid #223144}.joint:last-child{border:0}.joint-head{display:flex;justify-content:space-between;margin-bottom:10px;font-size:12px}.joint-head strong{color:#dce8f7}.joint-head output{font-family:Orbitron;color:var(--cyan);font-size:12px}.range{width:100%;accent-color:var(--cyan);cursor:pointer}
+.buttons{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px}.buttons .primary{grid-column:span 2}
+.side{display:flex;flex-direction:column;gap:16px}.control-card{height:fit-content}.info-card{padding:17px 18px}.info-card h3{margin:0 0 14px;font-size:13px;letter-spacing:.6px}.specs{display:grid;grid-template-columns:1fr 1fr;gap:9px}.spec{background:#101a28;border:1px solid #203147;border-radius:10px;padding:12px}.spec small{display:block;color:var(--muted);font-size:10px;margin-bottom:5px}.spec b{font-size:13px;color:#e7f4ff}.axislist{display:flex;flex-wrap:wrap;gap:7px}.axis{font-size:11px;border:1px solid #2b4158;background:#152235;padding:6px 8px;border-radius:7px;color:#9cb3cc}
+footer{text-align:center;color:#60748c;font-size:11px;padding:22px 0 10px}
+@media(max-width:950px){.layout{grid-template-columns:1fr}.side{display:grid;grid-template-columns:1fr 1fr}.viewer{height:55vh}}@media(max-width:600px){header{padding:0 18px}.tag{display:none}main{padding:22px 14px}.hero{align-items:start;flex-direction:column}.side{display:flex}.viewer{min-height:390px;height:48vh}}
+</style>
+</head>
+<body>
+<header><div class="brand">ROBO<span>LAB</span></div><div class="tag">INDUSTRIAL ROBOT SIMULATOR</div><div class="status">● SIMULATION READY</div></header>
+<main>
+<div class="hero"><div><h1>6-Осьті робот манипулятор</h1><p>Өнеркәсіптік роботтың 3D моделін интерактивті басқару</p></div><div class="status">6 DOF · LIVE CONTROL</div></div>
+<div class="layout">
+<section class="view-card"><div class="viewer"><canvas id="scene"></canvas><div class="view-top"><span>3D WORKSPACE / XYZ</span><span id="cameraLabel">ORBIT VIEW</span></div><div class="view-bottom"><span class="hint">Модельді айналдыру: тінтуірмен сүйре · Zoom: scroll</span><button id="gridBtn">GRID: ON</button></div></div></section>
+<aside class="side">
+<div class="control-card"><div class="controls"><div class="control-title"><h2>Осьтерді басқару</h2><small>ANGLE / DEG</small></div>
+<div id="joints"></div><div class="buttons"><button id="reset" class="primary">⟲ Бастапқы күй</button><button id="home">HOME позиция</button><button id="demo">▶ Авто қозғалыс</button><button id="stop">■ Тоқтату</button></div></div></div>
+<div class="info-card"><h3>РОБОТ ПАРАМЕТРЛЕРІ</h3><div class="specs"><div class="spec"><small>Қозғалыс осі</small><b>6 ось</b></div><div class="spec"><small>Басқару түрі</small><b>Servo / Joint</b></div><div class="spec"><small>Модель</small><b>6 DOF Arm</b></div><div class="spec"><small>Режим</small><b>Simulation</b></div></div></div>
+<div class="info-card"><h3>ҚОЗҒАЛТУ ОСЬТЕРІ</h3><div class="axislist"><span class="axis">J1 · Base</span><span class="axis">J2 · Shoulder</span><span class="axis">J3 · Elbow</span><span class="axis">J4 · Wrist</span><span class="axis">J5 · Tilt</span><span class="axis">J6 · Tool</span></div></div>
+</aside></div><footer>ROBO LAB · Educational 3D robot arm simulator · Three.js</footer></main>
+<script type="module" src="/static/robot.js"></script>
+</body></html>
